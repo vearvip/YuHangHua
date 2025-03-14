@@ -81,7 +81,7 @@ function parseTSV(content): CharObject {
 }
 
 // 文件路径
-const inputPath = path.join(__dirname, '../../refer/杭州五杭.tsv')
+const inputPath = path.join(__dirname, '../../refer/杭州五杭.origin.tsv')
 const outputPath = path.join(__dirname, './output.json')
 
 // 读取文件并解析
@@ -94,7 +94,7 @@ try {
   console.log('解析完成，结果已保存至 output.json')
   saveTsv(
     result,
-    './output.tsv'
+    '../../refer/杭州五杭.tsv'
   )
 } catch (err) {
   console.error('处理文件时出错:', err)
