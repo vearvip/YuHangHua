@@ -82,9 +82,9 @@ const liangZhuObject = liangZhuList.reduce((ret, val) => {
     }
   } else if (ret[val.final] && ret[val.final][val.initial] && !ret[val.final][val.initial][val.tone]) {
     ret[val.final][val.initial][val.tone] = val.char
-  }  else if (ret[val.initial] && ret[val.final][val.initial] && ret[val.final][val.initial][val.tone]) {
+  } else if (ret[val.initial] && ret[val.final][val.initial] && ret[val.final][val.initial][val.tone]) {
     ret[val.final][val.initial][val.tone] += val.char
-  } 
+  }
   return ret
 }, {})
 
@@ -111,35 +111,59 @@ export function saveTsv(data: Object, fileName: string) {
 
   //   return finals.map(final => {
   //     const tones = Object.keys(data[initial][final] )
-      
+
   //     return tones.map(tone => {
   //       const charString = data[initial][final][tone]
-        
+
   //       return initial+final + '\t' + tone + '\t' + charString
-        
+
   //     })
-      
+
   //   })
   // }).flat().flat().join('\n')
 
 
   // 将 JSON 数组转换为 TSV 格式字符串
-  const tsvData: string[] = [];
+  const tmpData: any[] = [];
+  const tmpData2: any[] = [];
   Object.keys(data).forEach(final => {
     const initials = Object.keys(data[final])
 
     initials.forEach(initial => {
-      const tones = Object.keys(data[final][initial] )
-      
-       tones.forEach(tone => {
+      const tones = Object.keys(data[final][initial])
+
+      tones.forEach(tone => {
         const charString = data[final][initial][tone]
+
+        // tsvData.push(initial + final + '\t' + tone + '\t' + charString)
+        if (final.includes('ʔ')) {
+          tmpData2.push({
+            initial,
+            final,
+            tone,
+            charString
+          })
+        } else {
+          tmpData.push({
+            initial,
+            final,
+            tone,
+            charString
+          })
+        }
         
-         tsvData.push(initial+final + '\t' + tone + '\t' + charString)
-        
+
       })
-      
+
     })
   })
+  const tsvData = [
+    ...tmpData,
+    ...tmpData2
+  ].map(ele => {
+    return ele.initial + ele.final + '\t' + ele.tone + '\t' + ele.charString
+  })
+  
 
   // 写入 TSV 文件
   fs.writeFile(outputFilePath, tsvData.flat().flat().join('\n'), (err) => {
