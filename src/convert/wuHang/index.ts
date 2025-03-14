@@ -81,7 +81,7 @@ function parseTSV(content): CharObject {
 }
 
 // 文件路径
-const inputPath = path.join(__dirname, '../../refer/杭州五杭.origin.tsv')
+const inputPath = path.join(__dirname, '../../../refer/杭州五杭.tsv')
 const outputPath = path.join(__dirname, './output.json')
 
 // 读取文件并解析
@@ -94,7 +94,7 @@ try {
   console.log('解析完成，结果已保存至 output.json')
   saveTsv(
     result,
-    '../../refer/杭州五杭.tsv'
+    '../../../result/杭州五杭.tsv'
   )
 } catch (err) {
   console.error('处理文件时出错:', err)
@@ -119,13 +119,7 @@ export function saveTsv(data: CharObject, fileName: string) {
       
     })
   }).flat().join('\n')
-  console.log('🍓', tsvData)
-  // const tsvData = [
-  //   // headers.join('\t'), // 添加表头行
-  //   ...data
-  //   // .map((row) => headers.map((header) => row[header]).join("\t")), // 添加数据行
-  // ].join("\n");
-
+  // console.log('🍓', tsvData) 
   // 写入 TSV 文件
   fs.writeFile(outputFilePath, tsvData, (err) => {
     if (err) {
